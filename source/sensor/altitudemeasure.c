@@ -135,3 +135,4 @@ uint8_t sensorAltitudeInit(void)
 
     return status;
     }
+
