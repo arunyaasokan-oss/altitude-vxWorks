@@ -1,6 +1,15 @@
 pipeline {
     agent any
     stages {
+
+        stage('Checkout') {
+            steps {
+            // 'credentialsId' must match the ID you created in Step 2
+            git credentialsId: 'github-token-auth', 
+            url: 'https://github.com/arunyaasokan-oss/altitude-vxWorks.git',
+            branch: 'develop/vxwork'
+    }
+}
         stage('Build') {
             steps {
                 // 1. Generate the Build Log: 
