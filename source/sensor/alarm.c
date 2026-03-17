@@ -1,6 +1,4 @@
-/*
-* alarm.c - alarm triggering module
-*/
+/* alarm.c - alarm triggering module */
 
 /*
 * Copyright (c) 2026 Trenser Technology Solutions(P), Ltd.
@@ -14,6 +12,7 @@
 modification history
 --------------------
 16mar27,ava initial work
+17mar27,ava header comment changed
 */
 
 /*

@@ -1,6 +1,4 @@
-/*
-* sensor.c - sensor module function
-*/
+/* sensor.c - sensor module function */
 
 /*
 * Copyright (c) 2026 Trensor Technology Solutions(P), Ltd.
@@ -14,6 +12,7 @@
 modification history
 --------------------
 16mar27,ava initial work
+17mar27,ava header comment changed
 */
 
 /*
