@@ -12,7 +12,8 @@
 modification history
 --------------------
 16mar27,ava initial work
-17mar27,ava header comment changed
+17mar27,ava header comment changed;
+            modified description of sensorAltitudeInit() as per review comment.
 */
 
 /*
@@ -37,9 +38,9 @@ INCLUDE FILES: altitudemeasure.h
 #define PROCESS_DATA_PRIORITY   1U
 #define TRIGGER_ALARM_PRIORITY  2U
 #define TASK_OPTION             0U
-#define SENSOR_READ_STACK_SIZE  8192
-#define PROCESS_DATA_STACK_SIZE 8192
-#define TRIGGER_ALARM_STACKSIZE 4096
+#define SENSOR_READ_STACK_SIZE  8192U
+#define PROCESS_DATA_STACK_SIZE 8192U
+#define TRIGGER_ALARM_STACKSIZE 4096U
  
 /* typedefs */
 typedef enum {
@@ -61,12 +62,13 @@ bool sensorIntialization(int32_t lFrequency);
 void sensorReadHandler(void);
 void processSensorData(void);
 
-/******************************************************************************
+/*******************************************************************************
 * 
 * sensorAltitudeInit - initialize the message queue and task implementation
 * 
 * DESCRIPTION
-* The function intialize ipc message queu and task implementation
+* The function intialize ipc message queue and intialize the task for reading 
+* data from the sensor, processing the read altitude values and trigger alarm
 * 
 * PARAMETERS
 * N/A

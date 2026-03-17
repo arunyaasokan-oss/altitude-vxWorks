@@ -42,7 +42,7 @@ INCLUDE FILES: alarm.h
 /* forward declarations */
 void alarmProcessHandler(void);
 
-/*****************************************************************************
+/*******************************************************************************
 * 
 * alarmReadHandler - pointer to the task entry function
 * 

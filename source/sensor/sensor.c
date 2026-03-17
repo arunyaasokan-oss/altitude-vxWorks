@@ -12,7 +12,9 @@
 modification history
 --------------------
 16mar27,ava initial work
-17mar27,ava header comment changed
+17mar27,ava header comment changed;
+            modified the description sensorIntialization() based review comment;
+            changed variable name in sensorReadHandler() 
 */
 
 /*
@@ -53,13 +55,15 @@ bool sensorIntialization(int32_t lFrequency);
 void sensorReadHandler(void);
 void processSensorData(void);
 
-/******************************************************************************
+/*******************************************************************************
 * 
 * sensorInitialization - initialize the sensor module
 * 
 * DESCRIPTION
-* The function intialize the sensor module with <ulFrequency>
-* 
+* The function intialize the sensor module with <ulFrequency> return <SUCCESS>
+* when the sensor module initialize successfully.get <ERROR> when <ulFrequency>
+* element is less than or equal to zero
+*
 * PARAMETERS
 * \is
 * \i <ulFrequency>
@@ -85,20 +89,20 @@ bool sensorIntialization
     int32_t lFrequency   /* frequency of sensor module */
     )
     {
-                                         /* req: sensorIniatialization_LLR_1 */
+                                          /* req: sensorIniatialization_LLR_1 */
     bool blReturnStatus = false;
 
     if (lFrequency <= 0)
-        {
+        {  
         return blReturnStatus;   
         }
-                                     /* req: sensorIntialization_LLR_2 */
+                                            /* req: sensorIntialization_LLR_2 */
     blReturnStatus = true;
 
     return blReturnStatus;
     }
 
-/*****************************************************************************
+/*******************************************************************************
 * 
 * sensorReadHandler - pointer to the task entry function
 * 
@@ -119,7 +123,8 @@ bool sensorIntialization
 */
 void sensorReadHandler(void)
     {
-    static uint32_t ulFrequency = 0;
+    static uint32_t ulAltitude = 0;
+    static int32_t lErrNo = 0;
     uint32_t ulTimer = INTERVAL_SEC * sysClkRateGet();
 
     while(1)
@@ -127,18 +132,21 @@ void sensorReadHandler(void)
         /* task must be sleep until time reaches to zero */
         taskDelay(ulTimer);
         
-        ulFrequency =  sensorReadData();
+        ulAltitude =  sensorReadData();
 
         /* storing altitude value to the message queue*/
-        msgQSend(dataMsgQueue,      
-            (char *)&ulFrequency, 
+        if(msgQSend(dataMsgQueue,      
+            (char *)&ulAltitude, 
             MAX_MESSAGE_LEN,
             NO_WAIT,
-            MSG_PRI_NORMAL);
+            MSG_PRI_NORMAL) == OK)
+            {
+            printf("data insert successfully!");  
+            }
         }
     }
 
-/*****************************************************************************
+/*******************************************************************************
 * 
 * sensorReadData - Read and return sensor data 
 * 
@@ -162,7 +170,6 @@ static uint32_t sensorReadData(void)
     {
     static uint32_t ulAltitudeValue = 0;
     
-    ulAltitudeValue = 1500;
     if((MIN_ALTITUDE_VAL >= ulAltitudeValue) && 
         (MAX_ALTITUDE_VAL <= ulAltitudeValue))
         {
@@ -177,7 +184,7 @@ static uint32_t sensorReadData(void)
 
     }
 
-/*****************************************************************************
+/*******************************************************************************
 * 
 * processSensorData - Pointer to the task entry function
 * 
@@ -211,9 +218,7 @@ void processSensorData(void)
                 {
                 printf("setting the event bit ...\n");
                 eventSend(alarmTaskId, EVENT_ALARM_READY);
-
                 }
-
             }
         }
     }
