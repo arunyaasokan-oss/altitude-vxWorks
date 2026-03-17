@@ -34,6 +34,13 @@ INCLUDE FILES: altitudemeasure.h
 #include "alarm.h"
 
 /* defines */
+#define SENSOR_READ_PRIORITY    0U
+#define PROCESS_DATA_PRIORITY   1U
+#define TRIGGER_ALARM_PRIORITY  2U
+#define TASK_OPTION             0U
+#define SENSOR_READ_STACK_SIZE  8192
+#define PROCESS_DATA_STACK_SIZE 8192
+#define TRIGGER_ALARM_STACKSIZE 4096
  
 /* typedefs */
 typedef enum {
@@ -45,10 +52,10 @@ SENSOR_STATE_ERROR
 /* globals */
 MSG_Q_ID dataMsgQueue;
 TASK_ID alarmTaskId;
+
 /* locals */
 TASK_ID sensorReadTaskId;
 TASK_ID sensorProcessTaskId;
-
 
 /* forward declarations */
 bool sensorIntialization(int32_t lFrequency);
@@ -86,11 +93,11 @@ uint8_t sensorAltitudeInit(void)
     if(SENSOR_STATE_SUCCESS == status)
         {
         sensorReadTaskId = taskSpawn("sensorRead",
-                    0,
-                    0,
-                    2048,
-                    (FUNCPTR)sensorReadHandler,
-                    0,0,0,0,0,0,0,0,0,0);
+                SENSOR_READ_PRIORITY,
+                TASK_OPTION,
+                SENSOR_READ_STACK_SIZE,
+                (FUNCPTR)sensorReadHandler,
+                NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
         if(TASK_ID_ERROR == sensorReadTaskId)
             {
             status = SENSOR_STATE_ERROR;   
@@ -100,11 +107,11 @@ uint8_t sensorAltitudeInit(void)
     if(SENSOR_STATE_SUCCESS == status)
         {
         sensorReadTaskId = taskSpawn("sensorProcess",
-                    0,
-                    0,
-                    2048,
-                    (FUNCPTR)processSensorData,
-                    0,0,0,0,0,0,0,0,0,0);
+                PROCESS_DATA_PRIORITY,
+                TASK_OPTION,
+                PROCESS_DATA_STACK_SIZE,
+                (FUNCPTR)processSensorData,
+                NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
         if(TASK_ID_ERROR == sensorReadTaskId)
             {
             status = SENSOR_STATE_ERROR;   
@@ -113,11 +120,11 @@ uint8_t sensorAltitudeInit(void)
     if(SENSOR_STATE_SUCCESS == status)
         {
         sensorReadTaskId = taskSpawn("triggerAlarm",
-                    0,
-                    0,
-                    2048,
-                    (FUNCPTR)alarmProcessHandler,
-                    0,0,0,0,0,0,0,0,0,0);
+                TRIGGER_ALARM_PRIORITY,
+                TASK_OPTION,
+                TRIGGER_ALARM_STACKSIZE,
+                (FUNCPTR)alarmProcessHandler,
+                NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
         if(TASK_ID_ERROR == sensorReadTaskId)
             {
             status = SENSOR_STATE_ERROR;   
