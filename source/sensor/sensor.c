@@ -28,6 +28,7 @@ INCLUDE FILES: sensor.h
 #include <vxWorks.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <taskLib.h>
 #include <sysLib.h>
 #include <tickLib.h>
@@ -72,7 +73,7 @@ void processSensorData(void);
 *
 * GLOBALS: N/A
 * 
-* RETURNS: N/A
+* RETURNS: 
 * \is
 * \i <SUCCESS>
 * when the sensor intialization set successfully.
@@ -127,7 +128,7 @@ void sensorReadHandler(void)
     static int32_t lErrNo = 0;
     uint32_t ulTimer = INTERVAL_SEC * sysClkRateGet();
 
-    while(1)
+    while(FOREVER)
         {
         /* task must be sleep until time reaches to zero */
         taskDelay(ulTimer);
@@ -151,9 +152,10 @@ void sensorReadHandler(void)
 * sensorReadData - Read and return sensor data 
 * 
 * DESCRIPTION
-* The function read data from sensor module and and return the data
-* 
-* PARAMETERS
+* The function read data from sensor module and and return the altitude value
+* <ulAltitudeValue>
+*
+* PARAMETERS 
 * N/A
 *
 * GLOBALS: N/A
@@ -168,8 +170,8 @@ void sensorReadHandler(void)
 
 static uint32_t sensorReadData(void)
     {
-    static uint32_t ulAltitudeValue = 0;
-    
+    uint32_t ulAltitudeValue = 0; 
+    ulAltitudeValue = rand();
     if((MIN_ALTITUDE_VAL >= ulAltitudeValue) && 
         (MAX_ALTITUDE_VAL <= ulAltitudeValue))
         {
@@ -205,7 +207,7 @@ void processSensorData(void)
     {
     static uint32_t ulReceivedData = 0;
 
-    while(1)
+    while(FOREVER)
         {
         if(msgQReceive(dataMsgQueue,
             (char *)&ulReceivedData, 

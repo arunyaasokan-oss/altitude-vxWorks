@@ -25,6 +25,7 @@ INCLUDE FILES: altitudemeasure.h
 /* includes */
 #include <vxWorks.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <taskLib.h>
 #include <sysLib.h>
@@ -67,15 +68,28 @@ void processSensorData(void);
 * sensorAltitudeInit - initialize the message queue and task implementation
 * 
 * DESCRIPTION
-* The function intialize ipc message queue and intialize the task for reading 
-* data from the sensor, processing the read altitude values and trigger alarm
+* The function is mainly used to create IPC message queue, configure thread 
+* handler for reading altitude data, processing data triggering alarm.
+* The function return <SENSOR_STATE_SUCCESS> when all component created
+* successfully. return <SENSOR_STATE_ERR_MSGQUEUE> when message queue  failed.
+* Return <SENSOR_STATE_ERROR> when thread handler failed.
 * 
 * PARAMETERS
 * N/A
 *
 * GLOBALS: N/A
 * 
-* RETURNS: N/A
+* RETURNS: 
+* \is
+* \i <SENSOR_STATE_SUCCESS>
+* when the all componenet created successfully.
+* 
+* \i<SENSOR_STATE_ERR_MSGQUEUE>
+* if message queue  failed to initialize.
+*
+* \i<SENSOR_STATE_ERROR>
+* if task creation failed.
+* \ie
 * 
 * ERRNO: N/A
 */

@@ -34,6 +34,8 @@ INCLUDE FILES: sensor.h altitudemeasure.h
 
 /* defines */
 
+#define SENSOR_FREQUENCY  10000U
+
 /* typedefs */
 
 /* globals */
@@ -45,7 +47,7 @@ INCLUDE FILES: sensor.h altitudemeasure.h
 int main(void)
     {
     static bool blReturnStatus =  false;
-    blReturnStatus = sensorIntialization(50000);
+    blReturnStatus = sensorIntialization(SENSOR_FREQUENCY);
 
     if(true == blReturnStatus)
         {

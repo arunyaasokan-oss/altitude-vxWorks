@@ -23,6 +23,7 @@ INCLUDE FILES: alarm.h
 
 /* includes */
 #include <stdio.h>
+#include <stdlib.h>
 #include <vxWorks.h>
 #include <stdint.h>
 #include <taskLib.h>
@@ -63,12 +64,15 @@ void alarmProcessHandler(void);
 void alarmProcessHandler(void)
     {
     uint32_t ulEventReceive;
-
-    if(eventReceive(EVENT_ALARM_READY, 
+    while(FOREVER)
+        {
+        if(eventReceive(EVENT_ALARM_READY, 
                 EVENTS_WAIT_ANY, 
                 WAIT_FOREVER, 
                 &ulEventReceive)== OK)
-        {
-        printf("trigger alarm\n");
+            {
+            printf("trigger alarm\n");
+            }
         }
     }
+
