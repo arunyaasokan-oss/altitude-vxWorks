@@ -32,9 +32,7 @@ INCLUDE FILES: sensor.h
 #include <taskLib.h>
 #include <sysLib.h>
 #include <tickLib.h>
-#include "sensor.h"
 #include "altitudemeasure.h"
-#include "alarm.h"
 #include <eventLib.h>
 
 /* defines */
@@ -123,12 +121,11 @@ bool sensorIntialization
 *
 */
 void sensorReadHandler(void)
-    {
+    {                                        /* req:  sensorReadHandler_LLR_1 */
     static uint32_t ulAltitude = 0;
-    static int32_t lErrNo = 0;
     uint32_t ulTimer = INTERVAL_SEC * sysClkRateGet();
 
-    while(FOREVER)
+    while(1)
         {
         /* task must be sleep until time reaches to zero */
         taskDelay(ulTimer);
@@ -207,7 +204,7 @@ void processSensorData(void)
     {
     static uint32_t ulReceivedData = 0;
 
-    while(FOREVER)
+    while(1)
         {
         if(msgQReceive(dataMsgQueue,
             (char *)&ulReceivedData, 

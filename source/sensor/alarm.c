@@ -64,7 +64,7 @@ void alarmProcessHandler(void);
 void alarmProcessHandler(void)
     {
     uint32_t ulEventReceive;
-    while(FOREVER)
+    while(1)
         {
         if(eventReceive(EVENT_ALARM_READY, 
                 EVENTS_WAIT_ANY, 
