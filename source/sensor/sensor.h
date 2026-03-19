@@ -20,9 +20,17 @@ modification history
 
 /* typedefs */
 
+#ifdef __cplusplus
+extern "C"                                                       /* cplusplus */
+{
+#endif
 /* function declarations */
 void sensorReadHandler(void);
 void processSensorData(void);
 bool sensorIntialization(int32_t lFrequency);
 
-#endif                                             /* __INCsensorh */
+#ifdef __cplusplus
+}
+#endif                                                           /* cplusplus */
+
+#endif                                                        /* __INCsensorh */

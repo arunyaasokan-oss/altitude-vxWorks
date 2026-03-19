@@ -121,11 +121,17 @@ bool sensorIntialization
 *
 */
 void sensorReadHandler(void)
-    {                                        /* req:  sensorReadHandler_LLR_1 */
+    {                                        
     static uint32_t ulAltitude = 0;
     uint32_t ulTimer = INTERVAL_SEC * sysClkRateGet();
-
-    while(1)
+                                             /* req:  sensorReadHandler_LLR_1 */
+    dataMsgQueue = msgQCreate(MAX_MSGS, MAX_MESSAGE_LEN, MSG_Q_FIFO);
+    if(ERROR == dataMsgQueue)
+        {
+        printf("message queue failed");
+        return;
+        }
+    while(1)                                /* req:  sensorReadHandler_LLR_2 */
         {
         /* task must be sleep until time reaches to zero */
         taskDelay(ulTimer);
