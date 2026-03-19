@@ -1,0 +1,7 @@
+# Ignore all VxWorks executable files in any subdirectory
+**/*.vxe
+wrsdk-vxworks7-qemu/*
+wrsdk-vxworks7-qemu-1.16.tar.bz2
+outputs/*
+.vscode
+*.o
